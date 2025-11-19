@@ -269,3 +269,8 @@ if __name__ == "__main__":
     print("Deleted:", delete_character("TestHero"))
 
 
+git add .
+git commit -m "Implement character_manager module"
+git push origin main
+
+
