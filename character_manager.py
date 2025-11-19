@@ -12,11 +12,12 @@ import os
 # SIMPLE ERROR MESSAGES (beginner version instead of custom exceptions)
 # =============================================================================
 
-ERROR_INVALID_CLASS = "InvalidCharacterClassError"
-ERROR_NOT_FOUND = "CharacterNotFoundError"
-ERROR_CORRUPTED = "SaveFileCorruptedError"
-ERROR_INVALID_DATA = "InvalidSaveDataError"
-ERROR_DEAD = "CharacterDeadError"
+class InvalidCharacterClassError(Exception): pass
+class CharacterNotFoundError(Exception): pass
+class SaveFileCorruptedError(Exception): pass
+class InvalidSaveDataError(Exception): pass
+class CharacterDeadError(Exception): pass
+
 
 # =============================================================================
 # CHARACTER CREATION
