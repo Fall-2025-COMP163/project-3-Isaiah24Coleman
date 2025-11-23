@@ -226,3 +226,9 @@ def validate_character_data(character):
 
     return True
 
+
+
+git add .
+git commit -m "Implement character_manager module"
+git push origin main
+
