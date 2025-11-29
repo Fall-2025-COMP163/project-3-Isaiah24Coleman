@@ -114,12 +114,13 @@ class InvalidItemTypeError(InventoryError):
     """Raised when item type is not recognized"""
     pass
 
-# Save/Load Exceptions
-class SaveFileCorruptedError(GameError):
+# Save/Load Exceptions — now character-specific for clarity
+class SaveFileCorruptedError(CharacterError):
     """Raised when save file cannot be loaded due to corruption"""
     pass
 
-class InvalidSaveDataError(GameError):
+class InvalidSaveDataError(CharacterError):
     """Raised when save file contains invalid data"""
     pass
+
 
