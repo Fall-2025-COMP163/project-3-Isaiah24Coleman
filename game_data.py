@@ -16,6 +16,27 @@ from custom_exceptions import (
 )
 
 # ... (other functions unchanged) ...
+def load_quests(filename):
+    # TODO: Implement file reading and parsing
+    # For now: raise the correct exception if file is missing or format is wrong
+    import os
+    from custom_exceptions import MissingDataFileError, InvalidDataFormatError
+    if not os.path.exists(filename):
+        raise MissingDataFileError(f"{filename} not found.")
+    # Return dummy data or parse actual file for full implementation
+    return {}
+
+def load_items(filename):
+    # TODO: Implement file reading and parsing
+    return {}
+
+def validate_quest_data(quest):
+    # TODO: Add full quest validation logic
+    required = ["quest_id", "title", "description", "reward_xp", "reward_gold", "required_level", "prerequisite"]
+    for key in required:
+        if key not in quest:
+            raise InvalidDataFormatError(f"Missing field: {key}")
+    return True
 
 def validate_item_data(item):
     required = ["item_id", "name", "type", "effect", "cost", "description"]
