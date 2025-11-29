@@ -2,6 +2,20 @@ import re
 import os
 from custom_exceptions import MissingDataFileError, InvalidDataFormatError, CorruptedDataError
 
+def validate_quest_data(q):
+    required_fields = [
+        "quest_id", "title", "description",
+        "reward_xp", "reward_gold", "required_level", "prerequisite"
+    ]
+    for field in required_fields:
+        if field not in q:
+            raise InvalidDataFormatError(f"Missing required field: {field}")
+    if not isinstance(q["reward_xp"], int) or not isinstance(q["reward_gold"], int):
+        raise InvalidDataFormatError("reward_xp and reward_gold must be integers.")
+    if not isinstance(q["required_level"], int):
+        raise InvalidDataFormatError("required_level must be integer.")
+    return True
+
 def _parse_kv_blocks(raw):
     blocks = [b.strip() for b in re.split(r"\n\s*\n", raw.strip()) if b.strip()]
     if not blocks:
