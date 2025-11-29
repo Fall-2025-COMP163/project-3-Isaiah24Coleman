@@ -16,6 +16,17 @@ def validate_quest_data(q):
         raise InvalidDataFormatError("required_level must be integer.")
     return True
 
+def validate_item_data(item):
+    required_fields = [
+        "item_id", "name", "type", "effect", "cost", "description"
+    ]
+    for field in required_fields:
+        if field not in item:
+            raise InvalidDataFormatError(f"Missing required field: {field}")
+    if not isinstance(item["cost"], int):
+        raise InvalidDataFormatError("Item cost must be an integer.")
+    return True
+
 def _parse_kv_blocks(raw):
     blocks = [b.strip() for b in re.split(r"\n\s*\n", raw.strip()) if b.strip()]
     if not blocks:
