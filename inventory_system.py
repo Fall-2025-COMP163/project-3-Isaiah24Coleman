@@ -3,9 +3,9 @@
 COMP 163 - Project 3: Quest Chronicles
 Inventory System Module - Starter Code
 
-Name: [Your Name Here]
+Name: Isaiah Coleman
 
-AI Usage: [Document any AI assistance used]
+AI Usage: Chatgpt to refactor my code as well as organize
 
 This module handles inventory management, item usage, and equipment.
 """
