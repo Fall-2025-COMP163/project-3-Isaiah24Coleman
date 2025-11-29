@@ -1,3 +1,4 @@
+# (Full file content, same as original up to the end of the module)
 """
 COMP 163 - Project 3: Quest Chronicles
 Character Manager Module
@@ -14,9 +15,9 @@ from custom_exceptions import (
     CharacterDeadError
 )
 
-# =============================================================================
+# ==============================================================================
 # CHARACTER CREATION
-# =============================================================================
+# ==============================================================================
 
 def create_character(name, character_class):
     valid_classes = ["Warrior", "Mage", "Rogue", "Cleric"]
@@ -57,9 +58,9 @@ def create_character(name, character_class):
         "completed_quests": []
     }
 
-# =============================================================================
+# ==============================================================================
 # SAVE CHARACTER
-# =============================================================================
+# ==============================================================================
 
 def save_character(character, save_directory="data/save_games"):
     if not os.path.exists(save_directory):
@@ -84,9 +85,9 @@ def save_character(character, save_directory="data/save_games"):
 
     return True
 
-# =============================================================================
+# ==============================================================================
 # LOAD CHARACTER
-# =============================================================================
+# ==============================================================================
 
 def load_character(character_name, save_directory="data/save_games"):
     filename = os.path.join(save_directory, f"{character_name}_save.txt")
@@ -126,9 +127,9 @@ def load_character(character_name, save_directory="data/save_games"):
 
     return character
 
-# =============================================================================
+# ==============================================================================
 # LIST SAVED CHARACTERS
-# =============================================================================
+# ==============================================================================
 
 def list_saved_characters(save_directory="data/save_games"):
     if not os.path.exists(save_directory):
@@ -142,9 +143,9 @@ def list_saved_characters(save_directory="data/save_games"):
 
     return characters
 
-# =============================================================================
+# ==============================================================================
 # DELETE CHARACTER
-# =============================================================================
+# ==============================================================================
 
 def delete_character(character_name, save_directory="data/save_games"):
     filename = os.path.join(save_directory, f"{character_name}_save.txt")
@@ -155,9 +156,9 @@ def delete_character(character_name, save_directory="data/save_games"):
     os.remove(filename)
     return True
 
-# =============================================================================
+# ==============================================================================
 # CHARACTER OPERATIONS
-# =============================================================================
+# ==============================================================================
 
 def gain_experience(character, xp_amount):
     if character["health"] <= 0:
@@ -200,9 +201,9 @@ def revive_character(character):
     character["health"] = character["max_health"] // 2
     return True
 
-# =============================================================================
+# ==============================================================================
 # VALIDATION
-# =============================================================================
+# ==============================================================================
 
 def validate_character_data(character):
     required = [
@@ -225,10 +226,3 @@ def validate_character_data(character):
         raise InvalidSaveDataError("Invalid quest data.")
 
     return True
-
-
-
-git add .
-git commit -m "Implement character_manager module"
-git push origin main
-
