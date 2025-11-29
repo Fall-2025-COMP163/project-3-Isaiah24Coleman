@@ -28,6 +28,19 @@ def load_items(filename):
     # TODO: Implement file reading and parsing
     return {}
 
+def valid_format(data):
+    # Checks if data is a list of dicts with required quest fields
+    required = ["quest_id", "title", "description", "reward_xp", "reward_gold", "required_level", "prerequisite"]
+    if not isinstance(data, list):
+        return False
+    for quest in data:
+        if not isinstance(quest, dict):
+            return False
+        for key in required:
+            if key not in quest:
+                return False
+    return True
+    
 def validate_quest_data(quest):
     # TODO: Add full quest validation logic
     required = ["quest_id", "title", "description", "reward_xp", "reward_gold", "required_level", "prerequisite"]
