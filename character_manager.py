@@ -3,6 +3,10 @@
 COMP 163 - Project 3: Quest Chronicles
 Character Manager Module
 
+Isaiah Coleman
+
+Minimal AI usaage needed had tutot for help
+
 This module handles character creation, loading, and saving.
 """
  
