@@ -2,9 +2,9 @@
 COMP 163 - Project 3: Quest Chronicles
 Quest Handler Module - Implementation
 
-Name: [Your Name Here]
+Name: Isaiah Coleman
 
-AI Usage: [Document any AI assistance used]
+AI Usage: Used Ai as well as my tutot to help me code
 
 This module handles quest management, dependencies, and completion.
 """
