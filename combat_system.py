@@ -2,6 +2,10 @@
 COMP 163 - Project 3: Quest Chronicles
 Combat System Module
 
+Isaiah Coleman
+
+Had to use Ai tp clean up code as well as my upswing tutor
+
 Handles combat mechanics
 """
  
