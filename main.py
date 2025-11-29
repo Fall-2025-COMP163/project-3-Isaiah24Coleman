@@ -2,7 +2,7 @@
 COMP 163 - Project 3: Quest Chronicles
 Main Game Module - Implementation
 
-Name: [Your Name Here]
+Name: Isaiah Coleman
 
 AI Usage: ChatGPT assisted in implementing module integration and safe I/O fallbacks.
 """
