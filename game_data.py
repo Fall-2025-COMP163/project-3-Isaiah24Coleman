@@ -16,15 +16,13 @@ from custom_exceptions import (
 )
 
 # ... (other functions unchanged) ...
+from custom_exceptions import InvalidDataFormatError
+
 def load_quests(filename):
-    # TODO: Implement file reading and parsing
-    # For now: raise the correct exception if file is missing or format is wrong
-    import os
-    from custom_exceptions import MissingDataFileError, InvalidDataFormatError
-    if not os.path.exists(filename):
-        raise MissingDataFileError(f"{filename} not found.")
-    # Return dummy data or parse actual file for full implementation
-    return {}
+    # ... (file reading code)
+    if not valid_format(data):
+        raise InvalidDataFormatError("Quest data is not properly formatted.")
+    # ...
 
 def load_items(filename):
     # TODO: Implement file reading and parsing
