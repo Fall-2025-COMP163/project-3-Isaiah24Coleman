@@ -1,85 +1,83 @@
-# (Only the validate_item_data function is adjusted below; rest of file unchanged)
-"""
-COMP 163 - Project 3: Quest Chronicles
-Game Data Module - Starter Code
-
-Name: [Your Name Here]
-
-AI Usage: ChatGPT used for debugging & formatting assistance.
-"""
-
+import re
 import os
-from custom_exceptions import (
-    InvalidDataFormatError,
-    MissingDataFileError,
-    CorruptedDataError
-)
+from custom_exceptions import MissingDataFileError, InvalidDataFormatError, CorruptedDataError
 
-# ... (other functions unchanged) ...
-from custom_exceptions import InvalidDataFormatError
+def _parse_kv_blocks(raw):
+    blocks = [b.strip() for b in re.split(r"\n\s*\n", raw.strip()) if b.strip()]
+    if not blocks:
+        raise InvalidDataFormatError("No data blocks found.")
+    entries = []
+    for block in blocks:
+        entry = {}
+        for line in block.splitlines():
+            if ":" not in line:
+                raise InvalidDataFormatError("Invalid line in data block.")
+            key, val = line.split(":", 1)
+            entry[key.strip().lower()] = val.strip()
+        entries.append(entry)
+    return entries
 
 def load_quests(filename):
-    # ... (file reading code)
-    if not valid_format(data):
-        raise InvalidDataFormatError("Quest data is not properly formatted.")
-    # ...
+    if not os.path.exists(filename):
+        raise MissingDataFileError(f"Quest data file not found: {filename}")
+    try:
+        with open(filename, "r", encoding="utf-8") as fh:
+            raw = fh.read()
+    except Exception as e:
+        raise CorruptedDataError(f"Could not read quest data file: {e}")
+
+    if not raw or not raw.strip():
+        raise InvalidDataFormatError("Quest data file is empty or invalid.")
+
+    # parse simple KEY: value blocks
+    parsed = _parse_kv_blocks(raw)
+
+    quests = {}
+    for q in parsed:
+        # convert expected numeric fields
+        for k in ("reward_xp", "reward_gold", "required_level"):
+            if k in q:
+                try:
+                    q[k] = int(q[k])
+                except Exception:
+                    raise InvalidDataFormatError(f"Field {k} must be an integer.")
+        if "quest_id" not in q:
+            raise InvalidDataFormatError("Missing quest_id in quest entry.")
+        # validate format (will raise InvalidDataFormatError on problems)
+        validate_quest_data(q)
+        quests[q["quest_id"]] = q
+
+    if not quests:
+        raise InvalidDataFormatError("No valid quests parsed.")
+    return quests
 
 def load_items(filename):
-    # TODO: Implement file reading and parsing
-    return {}
+    if not os.path.exists(filename):
+        raise MissingDataFileError(f"Item data file not found: {filename}")
+    try:
+        with open(filename, "r", encoding="utf-8") as fh:
+            raw = fh.read()
+    except Exception as e:
+        raise CorruptedDataError(f"Could not read item data file: {e}")
 
-def valid_format(data):
-    # Checks if data is a list of dicts with required quest fields
-    required = ["quest_id", "title", "description", "reward_xp", "reward_gold", "required_level", "prerequisite"]
-    if not isinstance(data, list):
-        return False
-    for quest in data:
-        if not isinstance(quest, dict):
-            return False
-        for key in required:
-            if key not in quest:
-                return False
-    return True
-    
-def validate_quest_data(quest):
-    # TODO: Add full quest validation logic
-    required = ["quest_id", "title", "description", "reward_xp", "reward_gold", "required_level", "prerequisite"]
-    for key in required:
-        if key not in quest:
-            raise InvalidDataFormatError(f"Missing field: {key}")
-    return True
+    if not raw or not raw.strip():
+        raise InvalidDataFormatError("Item data file is empty or invalid.")
 
-def validate_item_data(item):
-    required = ["item_id", "name", "type", "effect", "cost", "description"]
+    parsed = _parse_kv_blocks(raw)
 
-    for key in required:
-        if key not in item:
-            raise InvalidDataFormatError(f"Missing field: {key}")
+    items = {}
+    for it in parsed:
+        if "cost" in it:
+            try:
+                it["cost"] = int(it["cost"])
+            except Exception:
+                raise InvalidDataFormatError("Item cost must be an integer.")
+        if "item_id" not in it:
+            raise InvalidDataFormatError("Missing item_id in item entry.")
+        # validate format (will raise InvalidDataFormatError on problems)
+        validate_item_data(it)
+        items[it["item_id"]] = it
 
-    valid_types = ["weapon", "armor", "consumable"]
-    if item["type"] not in valid_types:
-        raise InvalidDataFormatError("Invalid item type.")
-
-    if not isinstance(item["cost"], int):
-        raise InvalidDataFormatError("Item cost must be an integer")
-
-    # Accept either a dict or a "stat:amount" string for effect
-    if isinstance(item["effect"], dict):
-        # ensure values are ints
-        for v in item["effect"].values():
-            if not isinstance(v, int):
-                raise InvalidDataFormatError("Effect values must be integers.")
-    elif isinstance(item["effect"], str):
-        if ":" not in item["effect"]:
-            raise InvalidDataFormatError("Effect must be 'stat:amount' string or a dict.")
-        stat, amount = item["effect"].split(":", 1)
-        try:
-            int(amount)
-        except Exception:
-            raise InvalidDataFormatError("Effect amount must be an integer.")
-    else:
-        raise InvalidDataFormatError("Effect must be a dictionary or 'stat:number' string.")
-
-    return True
-
-# ... (rest of file unchanged) ...
+    if not items:
+        raise InvalidDataFormatError("No valid items parsed.")
+    return items
