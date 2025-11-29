@@ -1,3 +1,13 @@
+"""
+COMP 163 - Project 3: Quest Chronicles
+game data module
+
+Name: Isaiah Coleman
+
+AI Usage: ChatGPT assisted in implementing module integration and safe I/O fallbacks. I also used mt tutor
+"""
+
+
 import re
 import os
 from custom_exceptions import MissingDataFileError, InvalidDataFormatError, CorruptedDataError
