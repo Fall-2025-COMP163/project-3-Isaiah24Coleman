@@ -12,6 +12,13 @@ import re
 import os
 from custom_exceptions import MissingDataFileError, InvalidDataFormatError, CorruptedDataError
 
+# validate_quest_data(q)
+# Ensures that a quest dictionary contains all required fields.
+# Checks for the presence of quest_id, title, description, reward_xp, reward_gold, required_level, and prerequisite.
+# Validates that reward_xp and reward_gold are integers.
+# Ensures required_level is an integer.
+# Raises InvalidDataFormatError if any validation fails.
+# Returns True if the quest data is valid.
 def validate_quest_data(q):
     required_fields = [
         "quest_id", "title", "description",
@@ -26,6 +33,7 @@ def validate_quest_data(q):
         raise InvalidDataFormatError("required_level must be integer.")
     return True
 
+
 def validate_item_data(item):
     required_fields = [
         "item_id", "name", "type", "effect", "cost", "description"
@@ -37,6 +45,12 @@ def validate_item_data(item):
         raise InvalidDataFormatError("Item cost must be an integer.")
     return True
 
+
+# _parse_kv_blocks(raw)
+# Splits raw text data into blocks separated by empty lines.
+# Converts each block into a dictionary of lowercase keys and stripped values.
+# Raises InvalidDataFormatError if no blocks are found or lines are improperly formatted.
+# Returns a list of parsed dictionaries representing quests or items.
 def _parse_kv_blocks(raw):
     blocks = [b.strip() for b in re.split(r"\n\s*\n", raw.strip()) if b.strip()]
     if not blocks:
@@ -52,6 +66,16 @@ def _parse_kv_blocks(raw):
         entries.append(entry)
     return entries
 
+# load_quests(filename)
+# Reads quest data from a specified text file.
+# Raises MissingDataFileError if the file does not exist.
+# Raises CorruptedDataError if the file cannot be read.
+# Validates that the file is not empty or invalid.
+# Parses key-value blocks using _parse_kv_blocks().
+# Converts reward_xp, reward_gold, and required_level to integers.
+# Ensures each quest has a quest_id and passes validate_quest_data().
+# Raises InvalidDataFormatError if any data is missing or incorrectly formatted.
+# Returns a dictionary mapping quest_id to quest data.
 def load_quests(filename):
     if not os.path.exists(filename):
         raise MissingDataFileError(f"Quest data file not found: {filename}")
@@ -85,7 +109,16 @@ def load_quests(filename):
     if not quests:
         raise InvalidDataFormatError("No valid quests parsed.")
     return quests
-
+# load_items(filename)
+# Reads item data from a specified text file.
+# Raises MissingDataFileError if the file does not exist.
+# Raises CorruptedDataError if the file cannot be read.
+# Validates that the file is not empty or invalid.
+# Parses key-value blocks using _parse_kv_blocks().
+# Converts cost fields to integers.
+# Ensures each item has an item_id and passes validate_item_data().
+# Raises InvalidDataFormatError if any data is missing or incorrectly formatted.
+# Returns a dictionary mapping item_id to item data.
 def load_items(filename):
     if not os.path.exists(filename):
         raise MissingDataFileError(f"Item data file not found: {filename}")
