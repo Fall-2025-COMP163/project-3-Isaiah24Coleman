@@ -21,6 +21,9 @@ MAX_INVENTORY_SIZE = 20
 
 # ============================================================================
 # INVENTORY MANAGEMENT
+#What: comment section headers grouping related functions (add/remove/use/equip/unequip/parse/apply/purchase/sell).
+#Implication: purely visual, but they reveal design decisions: flat functional API operating on raw character dicts, single-stat effect assumptions, 
+#and mutation order concerns (e.g., purchase deducts gold before ensuring add to inventory succeeds).
 # ============================================================================
 
 def add_item_to_inventory(character, item_id):
@@ -64,6 +67,9 @@ def clear_inventory(character):
 
 # ============================================================================
 # ITEM USAGE
+#Literal: the act of using/consuming an item.
+#In code: ITEM USAGE section contains use_item which consumes consumables and applies effects.
+#Note: return values are strings now — consider returning structured results.
 # ============================================================================
 
 def use_item(character, item_id, item_data):
@@ -84,6 +90,9 @@ def use_item(character, item_id, item_data):
 
 # ============================================================================
 # EQUIPPING WEAPONS
+#Literal: offensive equipment (swords, bows, etc.).
+#In code: items with type "weapon" handled by equip_weapon and unequip_weapon.
+#Note: currently assumes single-stat effects; multi-stat weapons would need richer storage.
 # ============================================================================
 
 def equip_weapon(character, item_id, item_data):
@@ -109,6 +118,10 @@ def equip_weapon(character, item_id, item_data):
 
 # ============================================================================
 # EQUIPPING ARMOR
+Literal: defensive equipment (helmets, chestplates, etc.).
+#In code: items with type "armor" handled by equip_armor and unequip_armor.
+#Note: same multi-stat limitation as weapons.
+
 # ============================================================================
 
 def equip_armor(character, item_id, item_data):
@@ -133,6 +146,9 @@ def equip_armor(character, item_id, item_data):
 
 # ============================================================================
 # UNEQUIPPING ITEMS
+#Literal: taking equipment off and reverting its effects.
+#In code: unequip_weapon and unequip_armor reverse effects and return item to inventory.
+#Note: operation can fail if inventory is full — consider swap/drop/bank behavior.
 # ============================================================================
 
 def unequip_weapon(character):
@@ -180,6 +196,9 @@ def unequip_armor(character):
 
 # ============================================================================
 # ITEM EFFECT PARSING & APPLY
+#Literal: converting a textual/structured input into a programmatic form.
+#In code: parse_item_effect turns "stat:amount" or {"stat": amount} into usable values.
+#Note: be cautious — dict input currently returns only the first pair; that can silently drop data.
 # ============================================================================
 
 def parse_item_effect(effect):
@@ -212,6 +231,14 @@ def apply_stat_effect(character, stat, amount):
 
 # ============================================================================
 # SHOP / ECONOMY
+#Literal: place/mechanism to buy items.
+#In code: purchase_item implements buying logic; sell_item implements selling.
+#Note: ensure transactional safety (don’t deduct gold before confirming the item can be added).
+
+#Literal: the game’s resource system (gold, prices, trading rules).
+#In code: price/cost handling in purchase_item and sell_item, plus gold on character.
+#Note: rounding (//2) and buy/sell asymmetry matter; consider currency smallest unit and configurable rates.
+
 # ============================================================================
 
 def purchase_item(character, item_id, item_data):
