@@ -20,7 +20,11 @@ from custom_exceptions import (
 )
 
 # ==============================================================================
-# CHARACTER CREATION
+# CHARACTER CREATION - Creates a new character dictionary using the selected class.
+   #Validates that the chosen class is allowed.
+   #Assigns base starting stats depending on the class.
+    #Initializes inventory, quest lists, gold, and experience.
+    #Returns a fully structured character object ready for gameplay.
 # ==============================================================================
 
 def create_character(name, character_class):
@@ -64,6 +68,12 @@ def create_character(name, character_class):
 
 # ==============================================================================
 # SAVE CHARACTER
+# save_character(character, save_directory="data/save_games")
+# Saves the character’s stats and information into a text file.
+# Creates the save directory if it does not exist.
+# Writes all core attributes, inventory, and quest lists to the save file.
+# Raises SaveFileCorruptedError if writing to the file fails.
+# Returns True when saving is successful.
 # ==============================================================================
 
 def save_character(character, save_directory="data/save_games"):
@@ -91,6 +101,14 @@ def save_character(character, save_directory="data/save_games"):
 
 # ==============================================================================
 # LOAD CHARACTER
+# load_character(character_name, save_directory="data/save_games")
+# Loads a character’s data from its corresponding save file.
+# Confirms the file exists before attempting to read it.
+# Parses each line into the correct data type (strings, integers, lists).
+# Rebuilds the inventory, active quest list, and completed quest list.
+# Validates all fields to ensure the saved character data is complete.
+# Returns the fully reconstructed character dictionary.
+
 # ==============================================================================
 
 def load_character(character_name, save_directory="data/save_games"):
@@ -133,6 +151,10 @@ def load_character(character_name, save_directory="data/save_games"):
 
 # ==============================================================================
 # LIST SAVED CHARACTERS
+# list_saved_characters(save_directory="data/save_games")
+# Looks inside the save directory for files ending with _save.txt.
+# Extracts and returns all character names found.
+# Provides the list used to show available saved games to the player.
 # ==============================================================================
 
 def list_saved_characters(save_directory="data/save_games"):
@@ -149,6 +171,10 @@ def list_saved_characters(save_directory="data/save_games"):
 
 # ==============================================================================
 # DELETE CHARACTER
+# delete_character(character_name, save_directory="data/save_games")
+# Deletes the save file associated with a given character.
+# Raises CharacterNotFoundError if the save file does not exist.
+# Returns True if the deletion completes successfully.
 # ==============================================================================
 
 def delete_character(character_name, save_directory="data/save_games"):
@@ -207,6 +233,11 @@ def revive_character(character):
 
 # ==============================================================================
 # VALIDATION
+# Ensures that all required fields exist in the saved character.
+# Confirms that inventory, active_quests, and completed_quests are lists.
+# Detects corrupted, missing, or invalid data early to prevent crashes.
+# Returns True when the character data is valid.
+
 # ==============================================================================
 
 def validate_character_data(character):
