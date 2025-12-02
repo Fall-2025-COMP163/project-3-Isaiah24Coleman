@@ -118,7 +118,7 @@ def equip_weapon(character, item_id, item_data):
 
 # ============================================================================
 # EQUIPPING ARMOR
-Literal: defensive equipment (helmets, chestplates, etc.).
+#Literal: defensive equipment (helmets, chestplates, etc.).
 #In code: items with type "armor" handled by equip_armor and unequip_armor.
 #Note: same multi-stat limitation as weapons.
 
