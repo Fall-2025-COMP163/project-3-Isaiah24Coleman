@@ -19,6 +19,9 @@ from custom_exceptions import (
 
 # ============================================================================
 # ENEMY DEFINITIONS
+#This section defines all enemy types used in the game, including their stats, rewards, and how they are generated based on player level. 
+#It sets the foundation for every encounter by specifying what enemies exist and what attributes they bring into battle.
+#
 # ============================================================================
 
 def create_enemy(enemy_type):
@@ -70,6 +73,9 @@ def get_random_enemy_for_level(character_level):
 
 # ============================================================================
 # SIMPLE BATTLE SYSTEM
+#This section contains the full logic for running a turn-based fight between the player and an enemy. 
+#It manages the battle loop, handles turns, calculates damage, checks win/loss conditions, and controls when combat starts or ends. 
+#It forms the core gameplay loop of fighting.
 # ============================================================================
 
 class SimpleBattle:
@@ -148,6 +154,10 @@ class SimpleBattle:
 
 # ============================================================================
 # SPECIAL ABILITIES
+#This section handles all class-specific special moves—like warrior power strikes, mage fireballs, rogue crits, and cleric heals. 
+#It determines which ability is allowed, applies effects to enemies or the player, and ensures abilities behave differently based on class.
+
+
 # ============================================================================
 
 def use_special_ability(character, enemy=None):
@@ -205,6 +215,8 @@ def cleric_heal(character):
 
 # ============================================================================
 # UTILITIES
+#  section includes helper functions used throughout combat, such as checking if a character can fight, calculating rewards, formatting battle results, and printing combat information. 
+#These are small but essential tools that support the main combat system.
 # ============================================================================
 
 def can_character_fight(character):
